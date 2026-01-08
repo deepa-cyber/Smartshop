@@ -1,0 +1,7 @@
+{
+  "name": "SmartShop",
+  "description": "Smart retail intelligence for the best deals across Amazon, Flipkart, and Myntra.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
