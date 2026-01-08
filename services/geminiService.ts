@@ -1,28 +1,25 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { SearchFilters, ComparisonResult } from "../types";
+import { SearchFilters, ComparisonResult } from "../types.ts";
 
 export const searchProducts = async (filters: SearchFilters): Promise<ComparisonResult> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const prompt = `
-    Find the top 3 best products based on the following criteria for a user in India:
+    Find and compare the top 3 best products in India for:
     - Product: ${filters.productName}
-    ${filters.brand ? `- Brand: ${filters.brand}` : ''}
-    - Budget Range: ${filters.budgetRange}
-    - Delivery Preference: ${filters.deliveryOption}
+    ${filters.brand ? `- Preferred Brand: ${filters.brand}` : ''}
+    - Budget: ${filters.budgetRange}
+    - Required Delivery: ${filters.deliveryOption}
     - User Pincode: ${filters.pincode}
     
-    You MUST search for actual live listings across Amazon.in, Flipkart.com, and Myntra.com.
-    
-    Focus on:
-    1. Lowest price within the budget.
-    2. Highest number of positive reviews.
-    3. Availability of the requested delivery speed (${filters.deliveryOption}) for the given pincode (${filters.pincode}).
-    
-    CRITICAL: Your response must start with a Markdown Table comparing the 3 products. 
-    Columns: Platform, Product Name, Price, Rating, Delivery Time, Key Pros/Cons.
-    Follow the table with a brief "Analysis" section explaining why these options were chosen.
+    CRITICAL REQUIREMENTS:
+    1. Search Amazon.in, Flipkart.com, and Myntra.com for actual live listings.
+    2. Rank them by value, reliability, and delivery speed to ${filters.pincode}.
+    3. Start your response with a Markdown Table.
+       Columns: Platform | Product Name | Current Price | User Rating | Delivery Speed | Verdict
+    4. Follow with an "Analysis" section detailing why these are the best choices.
+    5. Ensure prices are in INR (₹).
   `;
 
   try {
@@ -31,15 +28,17 @@ export const searchProducts = async (filters: SearchFilters): Promise<Comparison
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
+        temperature: 0.1, // Lower temperature for more factual price/data consistency
       },
     });
 
+    const text = response.text || "No intelligence data retrieved for this sector.";
     return {
-      summary: response.text || "No results found.",
+      summary: text,
       sources: response.candidates?.[0]?.groundingMetadata?.groundingChunks || []
     };
   } catch (error) {
-    console.error("Search failed:", error);
-    throw new Error("Failed to fetch product data. Please try again later.");
+    console.error("Scout Error:", error);
+    throw new Error("Target retrieval failed. Retailer nodes might be temporarily unreachable.");
   }
 };

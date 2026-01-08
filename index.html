@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartShop // Smart Retail Intelligence</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>SmartShop // AI Retail Intelligence</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,20 +14,25 @@
           font-family: 'Inter', sans-serif; 
           background-color: #020617;
           color: #f8fafc;
+          overflow-x: hidden;
         }
         .cyber-grid {
           background-image: linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
                             linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
           background-size: 40px 40px;
         }
-        .neon-glow {
-          box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
-        }
         .glass-dark {
-          background: rgba(15, 23, 42, 0.8);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(34, 211, 238, 0.2);
+          background: rgba(15, 23, 42, 0.7);
+          backdrop-filter: blur(16px);
+          border: 1px solid rgba(34, 211, 238, 0.15);
         }
+        .neon-text {
+          text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 <script type="importmap">
 {
